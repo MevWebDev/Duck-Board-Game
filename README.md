@@ -21,6 +21,7 @@ This Python project is a delightful board game developed using the Pygame librar
 
 - **Python**: Make sure you have Python installed on your machine.
 - **Pygame**: This game requires the Pygame library. Install it using pip:
-  ```bash
   
+  ```bash
   pip install pygame
+
