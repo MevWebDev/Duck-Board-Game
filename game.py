@@ -1,8 +1,8 @@
-#importy itp
+# Importy itp.
 import pygame, random,pickle
 from sys import exit
 pygame.init()
-#zmienne przedstawiajace tlo,pionki,muzyke, kostke
+# Zmienne przechowujące tło, zegar, pionki i kostę
 screen = pygame.display.set_mode((1280,720))
 clock = pygame.time.Clock()
 background = pygame.image.load('src/background.png')
@@ -17,10 +17,11 @@ player2 = pygame.image.load('src/player2.png')
 player2 = pygame.transform.scale(player2, (75, 75))
 gameStarted = True
 dice = pygame.image.load('src/dice1.png')
-#slowniki opisujace koordynaty kazdego pola
+# Słowniki przechowujące koordynaty każdego pola
 positionsX = {0:40, 1:40, 2:40,  3:40,  4:40,  5:40, 6:40, 7:40, 8:40, 9:120,10:200,11:300,12:380,13:460,14:560,15:640,16:720,17:800,18:900,19:980,20:1060,21:1060,22:1060,23:1060,24:1060,25:1060,26:1060,27:1060,28:980,29:900,30:800,31:720,32:640,33:560,34:460,35:380,36:300,37:200,38:200,39:200,40:200,41:200,42:200,43:200,44:280,45:360,46:440,47:540,48:620,49:700,50:800,51:880,52:880,53:880,54:880,55:880,56:810,57:720,58:640,59:550,60:460,61:370,62:370,63:370,64:440,65:530,66:620,67:700,68:780}
 positionsY = {0:10, 1:70, 2:150, 3:210, 4:290, 5:360,6:430,7:500,8:570,9:570,10:570,11:570,12:570,13:570,14:570,15:570,16:570,17:570,18:570,19:570,20:570,21:500,22:430,23:360,24:290,25:210,26:150,27:70,28:70,29:70,30:70,31:70,32:70,33:70,34:70,35:70,36:70,37:70,38:130,39:200,40:270,41:360,42:430,43:500,44:500,45:500,46:500,47:500,48:500,49:500,50:500,51:500,52:440,53:370,54:300,55:200,56:200,57:200,58:200,59:200,60:200,61:200,62:280,63:350,64:350,65:350,66:350,67:350,68:350}
 try:
+    # Jeżeli istnieje plik to ustawia te zmienne na zmienne w tym pliku
     with open('savegame.pkl', 'rb') as f:
         game_state = pickle.load(f)
         player1_position = game_state['player1_position']
@@ -28,10 +29,10 @@ try:
         currentPlayer = player1 if game_state['currentPlayer'] == 'player1' else player2
         gameEnded = game_state['gameEnded']
         diceRolled = game_state['diceRolled']
-        gameStarted = True  # Assuming you want to continue from the saved game
+        gameStarted = True  
         print("Loaded saved game.")
 except FileNotFoundError:
-    # If no saved game, initialize the variables as you do currently
+    #Jeżeli nie ma zapisu to ustawia zmienne na zmienne startowe
     player1_position = 0
     player2_position = 0
     currentPlayer = player1
@@ -39,13 +40,13 @@ except FileNotFoundError:
     gameStarted = True
     diceRolled = False 
 soundtrack.play(-1)
-#funkcja rolujaca kostka i zwracajaca wynik
+# Funkcja rzucająca kostką i zwracająca wynik
 def rollDice():
     number = random.randint(1, 6)
     rollsound.play()
     showDice(number)
     return number
-#funkcja wyswietlajaca kostke
+# Funkcja wyświetlająca kostkę
 def showDice(number):
     match number:
         case 1:
@@ -62,7 +63,7 @@ def showDice(number):
             dice = pygame.image.load('src/dice6.png')
     dice = pygame.transform.scale(dice, (60, 60))
     screen.blit(dice,(1200,20))
-#funkcja do przemieszczania pionkow
+# Funkcja przemieszczająca pionki
 def move(player, number):
     if player == player1:
         if number <= 68:
@@ -83,7 +84,8 @@ while True:
             gameStarted=False
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_s:  # If 'S' is pressed, save the game
+            # Po kliknięciu 's' program tworzy status gry w słowniku i zapisuje je do pliku
+            if event.key == pygame.K_s:  
                 game_state = {
                     'player1_position': player1_position,
                     'player2_position': player2_position,
