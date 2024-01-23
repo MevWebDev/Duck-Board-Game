@@ -21,6 +21,7 @@ positionsY = {0:10, 1:70, 2:150, 3:210, 4:290, 5:360,6:430,7:500,8:570,9:570,10:
 player1_position = 0
 player2_position = 0
 diceRolled = False
+gameEnded = False
 currentPlayer = player1
 soundtrack.play(-1)
 def rollDice():
@@ -64,7 +65,7 @@ while True:
             move(player2,player2_position)
             gameStarted=False
 
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN and gameEnded == False:
             if event.key == pygame.K_SPACE and not diceRolled:
                 diceRolled = True
                 dice_number = 0
@@ -82,6 +83,13 @@ while True:
                 move(player1, player1_position)
                 move(player2, player2_position)
                 showDice(dice_number)
+                if player1_position == 68:
+                    print("Player 1 Won!")
+                    gameEnded = True
+                if player2_position == 68:
+                    print("Player 2 Won!")
+                    gameEnded = True
+                    
                     
                  
         if event.type == pygame.KEYUP:
