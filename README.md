@@ -8,6 +8,7 @@ This Python project is a delightful board game developed using the Pygame librar
 - **Graphical User Interface**: The game boasts a visually appealing interface, with a well-designed game board, player pawns, and dice, all following a duck-themed style.
 - **Player Interaction**: Players can roll the dice by pressing the space bar, triggering a dice roll animation and sound effect.
 - **Sound Effects**: The game includes thematic sound effects for rolling dice and background music to keep players engaged.
+-  **Save and Load Functionality**: Players can save their game progress at any moment by pressing the 'S' key. The game state, including the positions of the pawns, the current player, and the game status, is saved to a file. When the game is reopened, it automatically loads the saved state, allowing players to continue right where they left off.
 - **Winning Alert**: A vibrant and celebratory winning alert is displayed when a player wins, making the victory moment truly special.
 
 ## How to Play
@@ -15,7 +16,8 @@ This Python project is a delightful board game developed using the Pygame librar
 1. **Start the Game**: Launch the game. The game board, along with the player pawns, will be displayed.
 2. **Roll the Dice**: Players take turns to roll the dice by pressing the space bar. The dice roll determines the number of steps a player's pawn will move.
 3. **Move Pawns**: Based on the dice roll, each player's pawn moves forward. The movement is animated for a smoother visual experience.
-4. **Winning the Game**: The game continues until a winning condition is met (you can define what constitutes a win in your game). The winner is greeted with a festive winning alert.
+4. **Save the Game**: At any point during the game, press 'S' to save the current game state. The game can be closed and reopened later to resume from the saved state.
+5. **Winning the Game**: The game continues until a winning condition is met (you can define what constitutes a win in your game). The winner is greeted with a festive winning alert.
 
 ## Dependencies
 
