@@ -18,7 +18,7 @@ player2 = pygame.image.load('src/player2.png')
 player2 = pygame.transform.scale(player2, (75, 75))
 gameStarted = True
 dice = pygame.image.load('src/dice1.png')
-scoreboard_background = pygame.image.load('src/scoreboard.jpg')
+
 
 # Słowniki przechowujące koordynaty każdego pola
 

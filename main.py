@@ -25,7 +25,6 @@ except FileNotFoundError:
     gameEnded = False
     gameStarted = True
     diceRolled = False 
-
 # Funkcja przemieszczająca pionki
 def move(player, number):
     if player == player1:
