@@ -29,7 +29,7 @@ while True:
             # Po kliknięciu 's' program tworzy status gry w słowniku i zapisuje je do pliku
             if event.key == pygame.K_s:
                 game_state = {'currentPlayer': 'player1' if currentPlayer == player1 else 'player2','player1_position': player1_position,'player2_position': player2_position,'gameEnded': gameEnded,'diceRolled': diceRolled,'player1_turns': player1_turns,'player2_turns': player2_turns,'player1_nickname': player1_nickname,'player2_nickname': player2_nickname,'player1Jailed':player1Jailed,'player2Jailed':player2Jailed,'player1_nickname':player1_nickname,'player2_nickname':player2_nickname}
-                save_game_state(game_state)                 
+                save_game_state(game_state,"savegame.pkl")                 
             if event.key == pygame.K_SPACE and not diceRolled and not gameEnded: 
                 diceRolled = True
                 dice_number = rollDice()             

@@ -7,5 +7,6 @@ def load_game_state(filename):
         return {}, False
 
 def save_game_state(game_state, filename):
+    print("Game saved")
     with open(filename, 'wb') as f:
         pickle.dump(game_state, f)
