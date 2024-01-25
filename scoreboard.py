@@ -9,7 +9,6 @@ def load_scoreboard():
     except FileNotFoundError:
         return []
     except Exception as e:
-        print(f"An error occurred while loading the scoreboard: {e}")
         return []
 def save_scoreboard(scoreboard_data):
     with open(scoreboard_file, 'wb') as f:

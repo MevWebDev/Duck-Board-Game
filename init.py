@@ -11,14 +11,23 @@ background = pygame.transform.scale(background, (1280, 720))
 soundtrack = pygame.mixer.Sound('src/soundtrack.mp3')
 soundtrack.set_volume(0.009)
 rollsound = pygame.mixer.Sound('src/roll.mp3')
-rollsound.set_volume(0.5)
+rollsound.set_volume(0.2)
 player1 = pygame.image.load('src/player1.png')
 player1 = pygame.transform.scale(player1, (75, 75))
 player2 = pygame.image.load('src/player2.png')
 player2 = pygame.transform.scale(player2, (75, 75))
 gameStarted = True
 dice = pygame.image.load('src/dice1.png')
-
+ladder_sound = pygame.mixer.Sound('src/ladder.mp3')
+ladder_sound.set_volume(0.05)
+rip_sound = pygame.mixer.Sound('src/rip.mp3')
+rip_sound.set_volume(0.01)
+prison_sound = pygame.mixer.Sound('src/prison.mp3')
+prison_sound.set_volume(0.01)
+x2_sound = pygame.mixer.Sound('src/x2.mp3')
+x2_sound.set_volume(0.01)
+wind_sound = pygame.mixer.Sound('src/wind.mp3')
+wind_sound.set_volume(0.05)
 
 # Słowniki przechowujące koordynaty każdego pola
 
@@ -34,21 +43,25 @@ try:
         gameEnded = game_state['gameEnded']
         diceRolled = game_state['diceRolled']
         gameStarted = True  
-        player1_turns = game_state['player1_turns']
-        player2_turns = game_state['player1_turns']
+        player1Jailed = game_state['player1Jailed']
+        player2Jailed = game_state['player2Jailed']
         player1_nickname = game_state['player1_nickname']
         player2_nickname = game_state['player2_nickname']
+        player1_turns = game_state['player1_turns']
+        player2_turns = game_state['player2_turns']
         print("Loaded saved game.")
 except FileNotFoundError:
     #Jeżeli nie ma zapisu to ustawia zmienne na zmienne startowe
+    player1_nickname = input(str("Player 1 please enter your nickname: "))
+    player2_nickname = input(str("Player 2 please enter your nickname: "))
+    player1Jailed = 0
+    player2Jailed = 0
     player1_position = 0
     player2_position = 0
-    player1_turns = 0
-    player2_turns = 0
     currentPlayer = player1
     gameEnded = False
     gameStarted = True
     diceRolled = False 
-    player1_nickname = input(str("Player 1 please input your nickname: "))
-    player2_nickname = input(str("Player 2 please input your nickname: "))
+    player1_turns = 0
+    player2_turns = 0
 soundtrack.play(-1)

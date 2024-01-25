@@ -1,38 +1,19 @@
-# Importy itp.
-import pygame, random,pickle,os
+import pygame,pickle,os
 from sys import exit
 from init import *
 from scoreboard import *
 from save import *
 from dice import *
+from moving import checkSquare
 pygame.init()
-try:
-    # Jeżeli istnieje plik to ustawia te zmienne na zmienne w tym pliku
-    with open('savegame.pkl', 'rb') as f:
-        game_state = pickle.load(f)
-        player1_position = game_state['player1_position']
-        player2_position = game_state['player2_position']
-        currentPlayer = player1 if game_state['currentPlayer'] == 'player1' else player2
-        gameEnded = game_state['gameEnded']
-        diceRolled = game_state['diceRolled']
-        gameStarted = True  
-        print("Loaded saved game.")
-except FileNotFoundError:
-    #Jeżeli nie ma zapisu to ustawia zmienne na zmienne startowe
-    player1_position = 0
-    player2_position = 0
-    currentPlayer = player1
-    gameEnded = False
-    gameStarted = True
-    diceRolled = False 
 # Funkcja przemieszczająca pionki
 def move(player, number):
     if player == player1:
         if number <= 68:
-            screen.blit(player, (positionsX[number]+40, positionsY[number]))
+            screen.blit(player, (positionsX[number]+40, positionsY[number]))                
     elif player == player2:
-        if number <= 68:
-            screen.blit(player, (positionsX[number]+80, positionsY[number]))
+        if number <= 68:           
+                screen.blit(player, (positionsX[number]+80, positionsY[number]))
     pygame.display.update()
 while True:
     for event in pygame.event.get():
@@ -48,48 +29,68 @@ while True:
             # Po kliknięciu 's' program tworzy status gry w słowniku i zapisuje je do pliku
             if event.key == pygame.K_s:
                 game_state = {
-                    'player1_position': player1_position,
-                    'player2_position': player2_position,
-                    'currentPlayer': 'player1' if currentPlayer == player1 else 'player2',
-                    'gameEnded': gameEnded,
-                    'diceRolled': diceRolled,
-                    'player1_turns': player1_turns,
-                    'player2_turns': player2_turns,
-                    'player1_nickname': player1_nickname,
-                    'player2_nickname': player2_nickname
+                     'currentPlayer': 'player1' if currentPlayer == player1 else 'player2','player1_position': player1_position,'player2_position': player2_position,'gameEnded': gameEnded,'diceRolled': diceRolled,'player1_turns': player1_turns,'player2_turns': player2_turns,'player1_nickname': player1_nickname,'player2_nickname': player2_nickname,'player1Jailed':player1Jailed,'player2Jailed':player2Jailed,'player1_nickname':player1_nickname,'player2_nickname':player2_nickname
                 }
-                save(game_state)                 
-            if event.key == pygame.K_TAB:
-                display_scoreboard()
-            if event.key == pygame.K_SPACE and not diceRolled and gameEnded == False: 
+                save_game_state(game_state)                 
+            if event.key == pygame.K_SPACE and not diceRolled and not gameEnded: 
                 diceRolled = True
-                dice_number = 0
+                dice_number = rollDice()             
                 if currentPlayer == player1:
-                    dice_number = rollDice()
-                    player1_turns += 1
-                    if player1_position + dice_number <= 68:
-                        player1_position += dice_number
-                    currentPlayer = player2
-                else:
-                    dice_number = rollDice()
-                    player2_turns += 1
-                    if player2_position + dice_number <= 68:
-                        player2_position += dice_number
-                    currentPlayer = player1
+                    if player1Jailed > 0:
+                        player1Jailed -= 1
+                        currentPlayer = player2
+                    else:
+                        if player1_position + dice_number <= 68:
+                            player1_position += dice_number
+                            screen.blit(background, (0, 0))
+                            showDice(dice_number)
+                            move(player1,player1_position)
+                            move(player2, player2_position)
+                            pygame.display.update()
+                            pygame.time.delay(1000)
+                            player1_position = checkSquare(player1_position, dice_number)
+                            if player1_position == 33:
+                                prison_sound.play()
+                                player1Jailed = 3
+                        currentPlayer = player2
+                elif currentPlayer == player2:
+                    if player2Jailed > 0:
+                        player2Jailed -= 1
+                        currentPlayer = player1
+                    else:
+                        if player2_position + dice_number <= 68:
+                            player2_position += dice_number
+                            screen.blit(background, (0, 0))
+                            showDice(dice_number)
+                            move(player1,player1_position)
+                            move(player2, player2_position)
+                            pygame.display.update()
+                            pygame.time.delay(1000)
+                            player2_position = checkSquare(player2_position, dice_number)
+                            if player2_position == 33:
+                                prison_sound.play()
+                                player2Jailed = 3
+                        currentPlayer = player1
                 screen.blit(background, (0, 0))                    
                 move(player1, player1_position)
                 move(player2, player2_position)
                 showDice(dice_number)
-                if player1_position == 68:
+            if player1Jailed > 0:
+                    player1Jailed -=1
+            if player2Jailed > 0:
+                    player2Jailed -=1
+            if player1_position == 68:
                     print(player1_nickname, "won")
                     gameEnded = True
                     update_scoreboard(player1_nickname, player1_turns)
+                    display_scoreboard()
                     if os.path.exists("savegame.pkl"):
                         os.remove("savegame.pkl")               
-                if player2_position == 68:
+            if player2_position == 68:
                     print(player2_nickname, "won")
                     gameEnded = True
-                    update_scoreboard(player2_nickname, player2_turns) 
+                    update_scoreboard(player2_nickname, player2_turns)
+                    display_scoreboard() 
                     if os.path.exists("savegame.pkl"):
                         os.remove("savegame.pkl")                                                       
         if event.type == pygame.KEYUP:

@@ -20,6 +20,9 @@ def showDice(number):
         case 5:
             dice = pygame.image.load('src/dice5.png')
         case 6:
-            dice = pygame.image.load('src/dice6.png')
-    dice = pygame.transform.scale(dice, (60, 60))
-    screen.blit(dice,(1200,20))
+            dice = pygame.image.load('src/dice6.png')  
+    try:        
+        dice = pygame.transform.scale(dice, (60, 60))
+        screen.blit(dice,(1200,20))
+    except Exception as e:
+        return []
