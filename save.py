@@ -1,4 +1,4 @@
-import pickle, os
+import pickle
 def load_game_state(filename):
     try:
         with open(filename, 'rb') as f:

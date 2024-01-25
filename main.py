@@ -28,14 +28,13 @@ while True:
         if event.type == pygame.KEYDOWN:
             # Po kliknięciu 's' program tworzy status gry w słowniku i zapisuje je do pliku
             if event.key == pygame.K_s:
-                game_state = {
-                     'currentPlayer': 'player1' if currentPlayer == player1 else 'player2','player1_position': player1_position,'player2_position': player2_position,'gameEnded': gameEnded,'diceRolled': diceRolled,'player1_turns': player1_turns,'player2_turns': player2_turns,'player1_nickname': player1_nickname,'player2_nickname': player2_nickname,'player1Jailed':player1Jailed,'player2Jailed':player2Jailed,'player1_nickname':player1_nickname,'player2_nickname':player2_nickname
-                }
+                game_state = {'currentPlayer': 'player1' if currentPlayer == player1 else 'player2','player1_position': player1_position,'player2_position': player2_position,'gameEnded': gameEnded,'diceRolled': diceRolled,'player1_turns': player1_turns,'player2_turns': player2_turns,'player1_nickname': player1_nickname,'player2_nickname': player2_nickname,'player1Jailed':player1Jailed,'player2Jailed':player2Jailed,'player1_nickname':player1_nickname,'player2_nickname':player2_nickname}
                 save_game_state(game_state)                 
             if event.key == pygame.K_SPACE and not diceRolled and not gameEnded: 
                 diceRolled = True
                 dice_number = rollDice()             
                 if currentPlayer == player1:
+                    player1_turns += 1
                     if player1Jailed > 0:
                         player1Jailed -= 1
                         currentPlayer = player2
@@ -54,6 +53,7 @@ while True:
                                 player1Jailed = 3
                         currentPlayer = player2
                 elif currentPlayer == player2:
+                    player2_turns += 1
                     if player2Jailed > 0:
                         player2Jailed -= 1
                         currentPlayer = player1

@@ -1,5 +1,5 @@
 
-from init import ladder_sound,wind_sound,rip_sound,prison_sound,x2_sound
+from init import ladder_sound,wind_sound,rip_sound,x2_sound
 def checkSquare(player_pos,dice_number):
    if player_pos in [7, 24, 35, 48, 62]:
       x2_sound.play()
